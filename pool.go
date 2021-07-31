@@ -2,9 +2,10 @@ package predis
 
 import (
 	"context"
-	"github.com/gomodule/redigo/redis"
 	"log"
 	"time"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 type ConnPool struct {

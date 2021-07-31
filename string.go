@@ -2,6 +2,7 @@ package predis
 
 import (
 	"encoding/json"
+
 	"github.com/gomodule/redigo/redis"
 )
 

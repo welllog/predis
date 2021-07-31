@@ -1,8 +1,9 @@
 package predis
 
 import (
-	"github.com/gomodule/redigo/redis"
 	"time"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 type HealthCheckFunc func(c redis.Conn, t time.Time) error
