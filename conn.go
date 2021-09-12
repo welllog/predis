@@ -1,6 +1,9 @@
 package predis
 
 import (
+	"context"
+	"time"
+
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -8,6 +11,31 @@ const OK = "OK"
 
 type Conn struct {
 	redis.Conn
+}
+
+func NewConn(ctx context.Context, address, password string, options ...redis.DialOption) (*Conn, error) {
+	opts := []redis.DialOption{
+		redis.DialConnectTimeout(5 * time.Second),
+		redis.DialWriteTimeout(2 * time.Second),
+		redis.DialPassword(password),
+	}
+	opts = append(opts, options...)
+	c, err := redis.DialContext(
+		ctx,
+		"tcp",
+		address,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	_, err = c.Do("PING")
+	if err != nil {
+		return nil, err
+	}
+	return &Conn{
+		Conn: c,
+	}, nil
 }
 
 func (c *Conn) Ping() error {
